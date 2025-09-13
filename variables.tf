@@ -7,13 +7,13 @@ variable "aws_region" {
 
 # Database hacka configuration
 variable "db_hacka_username" {
-  description = "The username for the RDS instance"
+  description = "The username for the Mongodb instance"
   type        = string
   sensitive   = true
 }
 
 variable "db_hacka_password" {
-  description = "The password for the RDS instance"
+  description = "The password for the Mongodb instance"
   type        = string
   sensitive   = true
 }
@@ -21,7 +21,7 @@ variable "db_hacka_password" {
 variable "db_hacka_name" {
   description = "Database hacka name"
   type        = string
-  default     = "lanchdb"
+  default     = "hackadb"
 }
 
 variable "db_hacka_identifier" {
