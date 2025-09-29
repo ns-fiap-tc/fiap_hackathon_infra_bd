@@ -3,8 +3,6 @@ Repositório com o código terraform para provisionar o banco de dados para o ha
 
 Este é o repositório que contém o código fonte do provisionamento do banco de dados da aplicação [FIAP Hackathon](https://github.com/ns-fiap-tc/fiap_hackathon_doc). Nele você encontrará arquivos de configuração do Terraform que definem a infraestrutura que cria o banco de dados MongoDB na AWS de acordo com a infra-base.
 
-.
-
 <details>
   <summary>Detalhamento execução do projeto</summary>
 
@@ -21,6 +19,62 @@ Este projeto possui um ecossistema composto por múltiplos repositórios que se 
 > 7. A provisão do repositório para autenticação com cognito e api gateway: [fiap_hackathon_autenticacao](https://github.com/ns-fiap-tc/fiap_hackathon_autenticacao);
 
 ## 🚀 Como rodar o projeto
+
+### 🤖 Via GitHub Actions
+<details>
+  <summary>Passo a passo</summary>
+
+#### 📖 Resumo
+Este repositório possui uma pipeline automatizada chamada `Terraform Deploy` que permite **provisionar a infraestrutura do banco de dados** sempre que houver um push na branch `main`.
+
+A branch é protegida e só aceita alterações que venham de PRs previamente aprovadas.
+
+> ⚠️ Apenas usuários com acesso ao repositório e às **GitHub Secrets** corretas conseguem utilizar esse fluxo.
+
+#### 🔐 Pré-requisitos
+Certifique-se de que as seguintes **secrets** estejam configuradas no repositório do GitHub (`Settings > Secrets and variables > Actions`):
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `AWS_SESSION_TOKEN` *(se estiver usando AWS Academy)*
+- `TF_VAR_DB_USERNAME`
+- `TF_VAR_DB_PASSWORD`
+
+Essas variáveis são utilizadas pelo Terraform para autenticação e execução dos planos na AWS.
+
+#### ⚙️ Etapas da pipeline `Terraform Deploy`
+1. 🧾 **Checkout do código**: A action clona este repositório.
+2. ⚒️ **Setup do Terraform**: Instala a ferramenta na máquina runner.
+3. 📂 **Acesso ao diretório atual**: Todos os arquivos `.tf` são lidos da raiz do repositório.
+4. 🔐 **Carregamento das variáveis sensíveis** via secrets.
+5. 🧪 **Execução do `terraform init`**: Inicializa o backend e os providers.
+6. 🚀 **Execução do `terraform apply`**: Cria ou atualiza a instância de banco de dados no Amazon RDS.
+
+#### 🧭 Diagrama do fluxo
+
+```mermaid
+flowchart TD
+    G[Push na branch main] --> A[Workflow: Terraform Deploy]
+
+    subgraph Pipeline
+        A1[Checkout do código]
+        A2[Setup do Terraform]
+        A3[Carrega Secrets da AWS e DB]
+        A4[terraform init]
+        A5[terraform plan]
+        A6[terraform apply]
+    end
+
+    A --> A1 --> A2 --> A3 --> A4 --> A5 --> A6 --> RDS[Instância PostgreSQL no AWS RDS]
+```
+
+#### Benefícios desse fluxo
+- 🤖 Automatização do deploy do banco de dados
+- ✅ Redução de erros manuais
+- 🔐 Segurança no uso de credenciais via GitHub Secrets
+- 🔁 Reprodutibilidade garantida
+- 💬 Transparência nos logs via GitHub Actions
+
+</details>
 
 ### 💻 Localmente
 
@@ -82,3 +136,13 @@ terraform init
 ```
 </details>
 </details>
+
+## ✨ Contribuidores
+
+- Guilherme Fausto - RM 359909
+- Nicolas Silva - RM 360621
+- Rodrigo Medda Pereira - RM 360575
+
+## Licença
+
+[![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](./LICENSE)
