@@ -25,6 +25,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+          TF_VAR_db_hacka_username: ${{ secrets.DB_HACKA_USERNAME }}
+          TF_VAR_db_hacka_password: ${{ secrets.DB_HACKA_PASSWORD }}
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
@@ -32,3 +34,5 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+          TF_VAR_db_hacka_username: ${{ secrets.DB_HACKA_USERNAME }}
+          TF_VAR_db_hacka_password: ${{ secrets.DB_HACKA_PASSWORD }}
